@@ -1,0 +1,23 @@
+# Infrastructure locale : MongoDB et Mailpit. L'api se lance à côté avec `cargo run` dans api/.
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  # SMTP sur 127.0.0.1:1025 (tls = "none" n'est accepté que vers le loopback), boîte de réception sur http://localhost:8025.
+  mailpit:
+    image: axllent/mailpit
+    ports:
+      - "127.0.0.1:1025:1025"
+      - "127.0.0.1:8025:8025"
+
+volumes:
+  mongo-data:

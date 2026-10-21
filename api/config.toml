@@ -1,0 +1,57 @@
+# Configuration non sensible du service. Les secrets viennent de l'environnement (voir ../.env.example).
+# Toute clé est surchargeable par une variable <env_prefix>__SECTION__CLE, ex. APP__SERVER__LOG_LEVEL=DEBUG.
+
+# Mode d'exécution : dev ou prod (prod force Secure sur les cookies et interdit tls = "none").
+environment = "dev"
+
+[project]
+# Nom du service, renvoyé par /ping et /health.
+name = "my-product"
+# Préfixe des surcharges d'environnement (majuscules, chiffres, _).
+env_prefix = "APP"
+
+[server]
+# Écoute sur 127.0.0.1 par défaut ; le docker-compose passe APP__SERVER__HOST=0.0.0.0.
+port = 8090
+log_level = "INFO"
+
+[token]
+# Durée de vie de l'access token, en minutes.
+ttl_minutes = 15
+# Cookies posés : app_token, app_refresh, app_device.
+cookie_prefix = "app"
+# Ignoré en prod (toujours Secure) ; false uniquement pour le dev en HTTP.
+cookie_secure = false
+refresh_ttl_days = 7
+# Claim iss des jetons émis.
+issuer = "authenticator"
+# Audience propre au service, toujours présente dans le claim aud.
+audience = "authenticator"
+
+# Portail d'administration : obligatoire, jamais open.
+[[portals]]
+name = "admin"
+audience = "portal-admin"
+
+# Portail ouvert à tout utilisateur qui a au moins un rôle portail.
+[[portals]]
+name = "home"
+audience = "portal-home"
+open = true
+
+[registration]
+# Rôles attribués à l'inscription ; admin y est interdit.
+default_roles = []
+
+# Envoi des mails de réinitialisation ; tls = "none" n'est accepté qu'en dev vers un hôte loopback.
+[mail]
+host = "127.0.0.1"
+port = 1025
+tls = "none"
+from = "no-reply@localhost"
+
+# Page du portail d'auth qui consomme ?token=… ; product_name apparaît dans le sujet du mail.
+[password_reset]
+url = "http://localhost:5173/reset-password"
+product_name = "My Product"
+ttl_minutes = 15
