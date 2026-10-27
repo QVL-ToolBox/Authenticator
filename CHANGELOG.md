@@ -5,6 +5,12 @@ Toutes les modifications notables de ce projet sont documentées dans ce fichier
 Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/),
 et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
+## [0.2.1] - 2026-10-27
+
+### Sécurité
+
+- Correction de l'alerte GHSA-qwgh-2vcv-g2f7 (block-buffer 0.10.4) : `auth` passe en v0.9.0 (argon2 0.6, sha2 0.11), la lignée `digest` 0.10 disparaît de `api/Cargo.lock`. `main.rs` inchangé.
+
 ## [0.2.0] - 2026-10-20
 
 ### Modifié

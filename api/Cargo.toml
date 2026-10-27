@@ -7,7 +7,7 @@ description = "Service d'authentification prêt à l'emploi, assemblé sur la br
 publish = false
 
 [dependencies]
-auth = { git = "https://github.com/QVL-ToolBox/TB-Api-Auth", tag = "v0.8.1" }
+auth = { git = "https://github.com/QVL-ToolBox/TB-Api-Auth", tag = "v0.9.0" }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 
 # Argon2 optimisé même en debug : sinon chaque login prend plusieurs secondes avec cargo run.
